@@ -14,6 +14,14 @@ import Footer from "@/components/Footer";
 
 type ContactType = "agency" | "in-house";
 
+interface BrandContact {
+  name: string;
+  title: string;
+  email: string;
+  linkedin?: string;
+  verifiedAt?: string;
+}
+
 interface Review {
   id: number; author: string; handle: string; avatar: string; avatarColor: string;
   rating: number; date: string; text: string; deal: string;
@@ -40,7 +48,7 @@ interface BrandData {
   retailPresence?: string[];
   recentLaunches?: string[];
   contactType: ContactType;
-  contact: { email: string; linkedin: string; responseTime: string; verifiedAt?: string };
+  contacts: BrandContact[];
   reviews: Review[];
   platformSignals: { instagram: PlatformSignal; tiktok: PlatformSignal; youtube: PlatformSignal };
 }
@@ -69,12 +77,12 @@ const BRANDS: Record<string, BrandData> = {
       "Authentic product stories over scripted ad reads — they want creators who have used the gear.",
     ],
     contactType: "agency",
-    contact: {
-      email: "sarah.chen@edelman.com",
-      linkedin: "linkedin.com/in/sarah-chen-edelman",
-      responseTime: "Typically responds in 3–7 business days via Edelman",
-      verifiedAt: "2026-06-12",
-    },
+    contacts: [
+      { name: "Sarah Chen", title: "Director, Creator Partnerships", email: "sarah.chen@edelman.com", linkedin: "https://linkedin.com/in/sarah-chen-edelman", verifiedAt: "2026-06-12" },
+      { name: "Maya Brooks", title: "Influencer Marketing Manager", email: "maya.brooks@edelman.com", linkedin: "https://linkedin.com/in/maya-brooks-edelman", verifiedAt: "2026-05-28" },
+      { name: "Daniel Kim", title: "Senior Account Manager, Social", email: "daniel.kim@edelman.com", verifiedAt: "2026-05-14" },
+      { name: "Leah Foster", title: "Marketing Account Executive", email: "leah.foster@edelman.com" },
+    ],
     platformSignals: {
       youtube:   { level: "Strong" },
       instagram: { level: "Moderate" },
@@ -124,12 +132,12 @@ const BRANDS: Record<string, BrandData> = {
       "Creators who speak authentically to both the creative and business side of the music industry.",
     ],
     contactType: "in-house",
-    contact: {
-      email: "m.williams@spotify.com",
-      linkedin: "linkedin.com/in/marcus-williams-spotify",
-      responseTime: "Typically responds in 2–4 business days",
-      verifiedAt: "2026-06-20",
-    },
+    contacts: [
+      { name: "Marcus Williams", title: "Director, Creator Partnerships", email: "m.williams@spotify.com", linkedin: "https://linkedin.com/in/marcus-williams-spotify", verifiedAt: "2026-06-20" },
+      { name: "Elena Ruiz", title: "Affiliate Partnerships Manager", email: "elena.ruiz@spotify.com", linkedin: "https://linkedin.com/in/elena-ruiz-spotify", verifiedAt: "2026-06-02" },
+      { name: "Noah Patel", title: "Social Marketing Manager", email: "noah.patel@spotify.com", verifiedAt: "2026-05-22" },
+      { name: "Claire Young", title: "Senior Marketing Manager", email: "claire.young@spotify.com" },
+    ],
     platformSignals: {
       instagram: { level: "Strong" },
       tiktok:    { level: "Strong" },
@@ -174,12 +182,12 @@ const BRANDS: Record<string, BrandData> = {
       "Creators with average view duration above 7 minutes — their product integrations require time to land.",
     ],
     contactType: "agency",
-    contact: {
-      email: "p.sharma@fleishman.com",
-      linkedin: "linkedin.com/in/priya-sharma-fleishman",
-      responseTime: "Typically responds in 4–8 business days via Fleishman Hillard",
-      verifiedAt: "2026-06-08",
-    },
+    contacts: [
+      { name: "Priya Sharma", title: "Director, Influencer Partnerships", email: "p.sharma@fleishman.com", linkedin: "https://linkedin.com/in/priya-sharma-fleishman", verifiedAt: "2026-06-08" },
+      { name: "Jon Bell", title: "Creator Partnerships Manager", email: "jon.bell@fleishman.com", linkedin: "https://linkedin.com/in/jon-bell-fleishman", verifiedAt: "2026-05-30" },
+      { name: "Amira Cole", title: "Senior Social Account Manager", email: "amira.cole@fleishman.com", verifiedAt: "2026-05-17" },
+      { name: "Theo Grant", title: "Marketing Account Executive", email: "theo.grant@fleishman.com" },
+    ],
     platformSignals: {
       youtube:   { level: "Strong" },
       instagram: { level: "Moderate" },
@@ -224,12 +232,12 @@ const BRANDS: Record<string, BrandData> = {
       "Creators open to longer-term ambassador relationships, not just one-off sponsored posts.",
     ],
     contactType: "in-house",
-    contact: {
-      email: "j.torres@gopro.com",
-      linkedin: "linkedin.com/in/jake-torres-gopro",
-      responseTime: "Typically responds in 2–5 business days",
-      verifiedAt: "2026-06-15",
-    },
+    contacts: [
+      { name: "Jake Torres", title: "Director, Influencer Marketing", email: "j.torres@gopro.com", linkedin: "https://linkedin.com/in/jake-torres-gopro", verifiedAt: "2026-06-15" },
+      { name: "Nina Park", title: "Creator Partnerships Manager", email: "nina.park@gopro.com", linkedin: "https://linkedin.com/in/nina-park-gopro", verifiedAt: "2026-06-01" },
+      { name: "Owen Reed", title: "Senior Social Marketing Manager", email: "owen.reed@gopro.com", verifiedAt: "2026-05-19" },
+      { name: "Ava Morgan", title: "Partnerships Coordinator", email: "ava.morgan@gopro.com" },
+    ],
     platformSignals: {
       youtube:   { level: "Strong" },
       instagram: { level: "Strong" },
@@ -273,12 +281,12 @@ const BRANDS: Record<string, BrandData> = {
       "Creators with engaged comment sections where followers ask gear questions — Sweetwater tracks this.",
     ],
     contactType: "in-house",
-    contact: {
-      email: "d.kim@sweetwater.com",
-      linkedin: "linkedin.com/in/dana-kim-sweetwater",
-      responseTime: "Typically responds in 2–4 business days",
-      verifiedAt: "2026-06-18",
-    },
+    contacts: [
+      { name: "Dana Kim", title: "Director, Affiliate Partnerships", email: "d.kim@sweetwater.com", linkedin: "https://linkedin.com/in/dana-kim-sweetwater", verifiedAt: "2026-06-18" },
+      { name: "Caleb Ross", title: "Creator Partnerships Manager", email: "caleb.ross@sweetwater.com", linkedin: "https://linkedin.com/in/caleb-ross-sweetwater", verifiedAt: "2026-06-04" },
+      { name: "Mia Thompson", title: "Influencer Marketing Manager", email: "mia.thompson@sweetwater.com", verifiedAt: "2026-05-25" },
+      { name: "Eli Stone", title: "Senior Marketing Manager", email: "eli.stone@sweetwater.com" },
+    ],
     platformSignals: {
       youtube:   { level: "Strong" },
       instagram: { level: "Moderate" },
@@ -323,12 +331,12 @@ const BRANDS: Record<string, BrandData> = {
       "A genuine perspective and authentic voice — Red Bull Music's brand is culture-driven, not product-driven.",
     ],
     contactType: "agency",
-    contact: {
-      email: "a.rivera@edelman.com",
-      linkedin: "linkedin.com/in/alex-rivera-edelman",
-      responseTime: "Typically responds in 5–10 business days via Edelman",
-      verifiedAt: "2026-05-29",
-    },
+    contacts: [
+      { name: "Alex Rivera", title: "Director, Creator Partnerships", email: "a.rivera@edelman.com", linkedin: "https://linkedin.com/in/alex-rivera-edelman", verifiedAt: "2026-05-29" },
+      { name: "Sofia Nguyen", title: "Influencer Marketing Manager", email: "sofia.nguyen@edelman.com", linkedin: "https://linkedin.com/in/sofia-nguyen-edelman", verifiedAt: "2026-05-21" },
+      { name: "Miles Carter", title: "Senior Social Account Manager", email: "miles.carter@edelman.com", verifiedAt: "2026-05-10" },
+      { name: "Rina Shah", title: "Partnerships Account Executive", email: "rina.shah@edelman.com" },
+    ],
     platformSignals: {
       instagram: { level: "Strong" },
       youtube:   { level: "Strong" },
@@ -439,6 +447,28 @@ function fmtVerifiedDate(iso: string): string {
   const d = new Date(iso);
   if (isNaN(d.getTime())) return iso;
   return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+}
+
+const RELEVANT_CONTACT_TERMS = ["influencer", "creator", "partnership", "affiliate", "social"];
+
+function rankContacts(contacts: BrandContact[]): BrandContact[] {
+  const score = (contact: BrandContact) => {
+    const title = contact.title.toLowerCase();
+    const relevance = RELEVANT_CONTACT_TERMS.some(term => title.includes(term)) ? 1 : 0;
+    const verified = contact.verifiedAt ? 1 : 0;
+    const seniority = title.includes("director") ? 2 : title.includes("manager") ? 1 : 0;
+    return { relevance, verified, seniority };
+  };
+
+  return [...contacts].sort((a, b) => {
+    const aScore = score(a);
+    const bScore = score(b);
+    return (
+      bScore.relevance - aScore.relevance ||
+      bScore.verified - aScore.verified ||
+      bScore.seniority - aScore.seniority
+    );
+  });
 }
 
 function fmtTierK(n: number): string {
@@ -554,6 +584,9 @@ export default function BrandDetail() {
   }
 
   const Icon = brand.Icon;
+  const rankedContacts = rankContacts(brand.contacts);
+  const primaryContact = rankedContacts[0];
+  const backupContacts = rankedContacts.slice(1, 4);
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
@@ -688,42 +721,70 @@ export default function BrandDetail() {
                     : <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30"><Users size={10} />In-house</span>
                   }
                 </div>
-                <div className="flex flex-col gap-3">
-                  <div className="flex items-center gap-3 p-3 rounded-xl bg-secondary border border-border">
-                    <Mail size={15} className="text-primary shrink-0" />
-                    <div className="flex-1 min-w-0">
-                      <p className="text-xs text-muted-foreground mb-0.5">Email</p>
-                      <p className="text-sm font-semibold text-white truncate" data-testid="text-contact-email">{brand.contact.email}</p>
-                      <p className="text-xs text-muted-foreground/60 mt-0.5">
-                        {brand.contact.verifiedAt ? `Verified ${fmtVerifiedDate(brand.contact.verifiedAt)}` : "Verification pending"}
-                      </p>
+                {primaryContact && (
+                  <div className="rounded-xl border border-primary/30 bg-primary/[0.08] p-4">
+                    <span className="inline-flex rounded-full border border-primary/30 bg-primary/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-primary">
+                      Best contact
+                    </span>
+                    <div className="mt-3">
+                      <p className="text-base font-bold text-white">{primaryContact.name}</p>
+                      <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">{primaryContact.title}</p>
                     </div>
-                    <CopyButton value={brand.contact.email} />
-                  </div>
-                  <div className="flex items-center gap-3 p-3 rounded-xl bg-secondary border border-border">
-                    <Linkedin size={15} className="text-[#0a66c2] shrink-0" />
-                    <div className="flex-1 min-w-0">
-                      <p className="text-xs text-muted-foreground mb-0.5">LinkedIn</p>
-                      <p className="text-sm font-semibold text-white truncate" data-testid="text-contact-linkedin">{brand.contact.linkedin}</p>
-                      <p className="text-xs text-muted-foreground/60 mt-0.5">
-                        {brand.contact.verifiedAt ? `Verified ${fmtVerifiedDate(brand.contact.verifiedAt)}` : "Verification pending"}
-                      </p>
+                    <div className="mt-4 flex items-center gap-2">
+                      <Mail size={13} className="shrink-0 text-primary" />
+                      <span className="min-w-0 flex-1 truncate text-xs font-medium text-white" data-testid="text-contact-email">
+                        {primaryContact.email}
+                      </span>
+                      <CopyButton value={primaryContact.email} />
                     </div>
-                    <CopyButton value={brand.contact.linkedin} />
+                    <p className="ml-5 mt-0.5 text-[10px] text-muted-foreground/70">
+                      {primaryContact.verifiedAt ? `Verified ${fmtVerifiedDate(primaryContact.verifiedAt)}` : "Verification pending"}
+                    </p>
+                    {primaryContact.linkedin && (
+                      <a
+                        href={primaryContact.linkedin}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-[#62a9e8] transition-colors hover:text-[#8bc4f5]"
+                        data-testid="text-contact-linkedin"
+                      >
+                        <Linkedin size={13} />
+                        View LinkedIn
+                      </a>
+                    )}
+                    <button
+                      data-testid="button-pitch-primary-contact"
+                      onClick={() => setLocation(`/pitch?brand=${encodeURIComponent(brand.name)}&contact=${encodeURIComponent(primaryContact.name)}`)}
+                      className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-primary py-2.5 text-xs font-bold text-white shadow-md shadow-primary/25 transition-all hover:bg-primary/90 hover:shadow-primary/40"
+                    >
+                      <Zap size={13} />
+                      Pitch {primaryContact.name.split(" ")[0]} →
+                    </button>
                   </div>
-                </div>
-              </motion.div>
+                )}
 
-              {/* Pitch CTA */}
-              <motion.div initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.45, delay: 0.24 }}>
-                <button
-                  data-testid="button-pitch-sidebar"
-                  onClick={() => setLocation(`/pitch?brand=${encodeURIComponent(brand.name)}`)}
-                  className="w-full py-3.5 rounded-xl bg-primary hover:bg-primary/90 text-white font-bold text-sm shadow-lg shadow-primary/30 transition-all hover:shadow-primary/50 flex items-center justify-center gap-2"
-                >
-                  <Zap size={15} />
-                  Pitch this brand →
-                </button>
+                {backupContacts.length > 0 && (
+                  <div className="mt-5 border-t border-border pt-4">
+                    <p className="mb-3 text-xs leading-relaxed text-muted-foreground">
+                      If you don't hear back, these also handle partnerships here:
+                    </p>
+                    <div className="flex flex-col divide-y divide-border/70">
+                      {backupContacts.map(contact => (
+                        <div key={contact.email} className="py-3 first:pt-0 last:pb-0">
+                          <div className="flex items-start justify-between gap-3">
+                            <div className="min-w-0">
+                              <p className="truncate text-xs font-semibold text-white/85">{contact.name}</p>
+                              <p className="mt-0.5 text-[11px] leading-relaxed text-muted-foreground">{contact.title}</p>
+                            </div>
+                            <span className={`mt-0.5 shrink-0 text-[10px] font-medium ${contact.verifiedAt ? "text-emerald-400" : "text-muted-foreground/60"}`}>
+                              {contact.verifiedAt ? "Verified email" : "Verification pending"}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </motion.div>
 
             </div>
