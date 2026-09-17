@@ -80,7 +80,7 @@ const BRANDS: Record<string, BrandData> = {
     contacts: [
       { name: "Sarah Chen", title: "Director, Creator Partnerships", email: "sarah.chen@edelman.com", email_status: "verified", linkedin: "https://linkedin.com/in/sarah-chen-edelman" },
       { name: "Maya Brooks", title: "Influencer Marketing Manager", email: "maya.brooks@edelman.com", email_status: "extrapolated", linkedin: "https://linkedin.com/in/maya-brooks-edelman" },
-      { name: "Daniel Kim", title: "Senior Account Manager, Social", email: "daniel.kim@edelman.com", email_status: "verified" },
+      { name: "Daniel Kim", title: "Senior Account Manager, Social", email: "daniel.kim@edelman.com", email_status: "verified", linkedin: "https://linkedin.com/in/daniel-kim-edelman" },
       { name: "Leah Foster", title: "Marketing Account Executive", email_status: "unavailable", linkedin: "https://linkedin.com/in/leah-foster-edelman" },
     ],
     platformSignals: {
@@ -135,7 +135,7 @@ const BRANDS: Record<string, BrandData> = {
     contacts: [
       { name: "Marcus Williams", title: "Director, Creator Partnerships", email: "m.williams@spotify.com", email_status: "verified", linkedin: "https://linkedin.com/in/marcus-williams-spotify" },
       { name: "Elena Ruiz", title: "Affiliate Partnerships Manager", email: "elena.ruiz@spotify.com", email_status: "extrapolated", linkedin: "https://linkedin.com/in/elena-ruiz-spotify" },
-      { name: "Noah Patel", title: "Social Marketing Manager", email: "noah.patel@spotify.com", email_status: "verified" },
+      { name: "Noah Patel", title: "Social Marketing Manager", email: "noah.patel@spotify.com", email_status: "verified", linkedin: "https://linkedin.com/in/noah-patel-spotify" },
       { name: "Claire Young", title: "Senior Marketing Manager", email_status: "unavailable", linkedin: "https://linkedin.com/in/claire-young-spotify" },
     ],
     platformSignals: {
@@ -185,7 +185,7 @@ const BRANDS: Record<string, BrandData> = {
     contacts: [
       { name: "Priya Sharma", title: "Director, Influencer Partnerships", email: "p.sharma@fleishman.com", email_status: "verified", linkedin: "https://linkedin.com/in/priya-sharma-fleishman" },
       { name: "Jon Bell", title: "Creator Partnerships Manager", email: "jon.bell@fleishman.com", email_status: "extrapolated", linkedin: "https://linkedin.com/in/jon-bell-fleishman" },
-      { name: "Amira Cole", title: "Senior Social Account Manager", email: "amira.cole@fleishman.com", email_status: "verified" },
+      { name: "Amira Cole", title: "Senior Social Account Manager", email: "amira.cole@fleishman.com", email_status: "verified", linkedin: "https://linkedin.com/in/amira-cole-fleishman" },
       { name: "Theo Grant", title: "Marketing Account Executive", email_status: "unavailable", linkedin: "https://linkedin.com/in/theo-grant-fleishman" },
     ],
     platformSignals: {
@@ -235,7 +235,7 @@ const BRANDS: Record<string, BrandData> = {
     contacts: [
       { name: "Jake Torres", title: "Director, Influencer Marketing", email: "j.torres@gopro.com", email_status: "verified", linkedin: "https://linkedin.com/in/jake-torres-gopro" },
       { name: "Nina Park", title: "Creator Partnerships Manager", email: "nina.park@gopro.com", email_status: "extrapolated", linkedin: "https://linkedin.com/in/nina-park-gopro" },
-      { name: "Owen Reed", title: "Senior Social Marketing Manager", email: "owen.reed@gopro.com", email_status: "verified" },
+      { name: "Owen Reed", title: "Senior Social Marketing Manager", email: "owen.reed@gopro.com", email_status: "verified", linkedin: "https://linkedin.com/in/owen-reed-gopro" },
       { name: "Ava Morgan", title: "Partnerships Coordinator", email_status: "unavailable", linkedin: "https://linkedin.com/in/ava-morgan-gopro" },
     ],
     platformSignals: {
@@ -284,7 +284,7 @@ const BRANDS: Record<string, BrandData> = {
     contacts: [
       { name: "Dana Kim", title: "Director, Affiliate Partnerships", email: "d.kim@sweetwater.com", email_status: "verified", linkedin: "https://linkedin.com/in/dana-kim-sweetwater" },
       { name: "Caleb Ross", title: "Creator Partnerships Manager", email: "caleb.ross@sweetwater.com", email_status: "extrapolated", linkedin: "https://linkedin.com/in/caleb-ross-sweetwater" },
-      { name: "Mia Thompson", title: "Influencer Marketing Manager", email: "mia.thompson@sweetwater.com", email_status: "verified" },
+      { name: "Mia Thompson", title: "Influencer Marketing Manager", email: "mia.thompson@sweetwater.com", email_status: "verified", linkedin: "https://linkedin.com/in/mia-thompson-sweetwater" },
       { name: "Eli Stone", title: "Senior Marketing Manager", email_status: "unavailable", linkedin: "https://linkedin.com/in/eli-stone-sweetwater" },
     ],
     platformSignals: {
@@ -334,7 +334,7 @@ const BRANDS: Record<string, BrandData> = {
     contacts: [
       { name: "Alex Rivera", title: "Director, Creator Partnerships", email: "a.rivera@edelman.com", email_status: "verified", linkedin: "https://linkedin.com/in/alex-rivera-edelman" },
       { name: "Sofia Nguyen", title: "Influencer Marketing Manager", email: "sofia.nguyen@edelman.com", email_status: "extrapolated", linkedin: "https://linkedin.com/in/sofia-nguyen-edelman" },
-      { name: "Miles Carter", title: "Senior Social Account Manager", email: "miles.carter@edelman.com", email_status: "verified" },
+      { name: "Miles Carter", title: "Senior Social Account Manager", email: "miles.carter@edelman.com", email_status: "verified", linkedin: "https://linkedin.com/in/miles-carter-edelman" },
       { name: "Rina Shah", title: "Partnerships Account Executive", email_status: "unavailable", linkedin: "https://linkedin.com/in/rina-shah-edelman" },
     ],
     platformSignals: {
@@ -753,16 +753,19 @@ export default function BrandDetail() {
                       </div>
                     )}
                     {primaryContact.linkedin && (
-                      <a
-                        href={primaryContact.linkedin}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-[#62a9e8] transition-colors hover:text-[#8bc4f5]"
-                        data-testid="text-contact-linkedin"
-                      >
-                        <Linkedin size={13} />
-                        View LinkedIn
-                      </a>
+                      <div className="mt-3">
+                        <a
+                          href={primaryContact.linkedin}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-1.5 rounded-md bg-[#0a66c2]/15 px-2.5 py-1.5 text-xs font-semibold text-[#77b7ef] transition-colors hover:bg-[#0a66c2]/25 hover:text-[#a2d2fb]"
+                          data-testid="text-contact-linkedin"
+                        >
+                          <Linkedin size={13} />
+                          View on LinkedIn ↗
+                        </a>
+                        <p className="mt-1.5 text-[10px] text-muted-foreground/70">Confirm they're current.</p>
+                      </div>
                     )}
                     <button
                       data-testid="button-pitch-primary-contact"
@@ -792,15 +795,15 @@ export default function BrandDetail() {
                               <EmailStatusTag status={contact.email_status} />
                             </div>
                           </div>
-                          {contact.email_status === "unavailable" && contact.linkedin && (
+                          {contact.linkedin && (
                             <a
                               href={contact.linkedin}
                               target="_blank"
                               rel="noreferrer"
-                              className="mt-2 inline-flex items-center gap-1.5 text-[11px] font-medium text-[#62a9e8] transition-colors hover:text-[#8bc4f5]"
+                              className="mt-2 inline-flex items-center gap-1.5 rounded-md bg-[#0a66c2]/10 px-2 py-1 text-[11px] font-semibold text-[#77b7ef] transition-colors hover:bg-[#0a66c2]/20 hover:text-[#a2d2fb]"
                             >
                               <Linkedin size={12} />
-                              View LinkedIn
+                              LinkedIn ↗
                             </a>
                           )}
                         </div>
