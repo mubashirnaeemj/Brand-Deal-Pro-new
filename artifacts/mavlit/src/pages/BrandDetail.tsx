@@ -743,6 +743,11 @@ export default function BrandDetail() {
                     : <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30"><Users size={10} />In-house</span>
                   }
                 </div>
+                {brand.contactType === "agency" && (
+                  <p className="-mt-1 mb-4 text-xs leading-relaxed text-muted-foreground">
+                    Campaigns run through their agency — pitch this person, and expect a slightly longer process.
+                  </p>
+                )}
                 {primaryContact && (
                   <div className="rounded-xl border border-primary/30 bg-primary/[0.08] p-4">
                     <span className="inline-flex rounded-full border border-primary/30 bg-primary/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-primary">
