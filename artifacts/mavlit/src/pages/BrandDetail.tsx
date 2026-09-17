@@ -728,7 +728,7 @@ export default function BrandDetail() {
                     </span>
                     <div className="mt-3">
                       <p className="text-base font-bold text-white">{primaryContact.name}</p>
-                      <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">{primaryContact.title}</p>
+                      <p className="mt-1 text-sm font-semibold leading-relaxed text-white/80">{primaryContact.title}</p>
                     </div>
                     <div className="mt-4 flex items-center gap-2">
                       <Mail size={13} className="shrink-0 text-primary" />
@@ -774,7 +774,7 @@ export default function BrandDetail() {
                           <div className="flex items-start justify-between gap-3">
                             <div className="min-w-0">
                               <p className="truncate text-xs font-semibold text-white/85">{contact.name}</p>
-                              <p className="mt-0.5 text-[11px] leading-relaxed text-muted-foreground">{contact.title}</p>
+                              <p className="mt-0.5 text-xs font-medium leading-relaxed text-white/65">{contact.title}</p>
                             </div>
                             <span className={`mt-0.5 shrink-0 text-[10px] font-medium ${contact.verifiedAt ? "text-emerald-400" : "text-muted-foreground/60"}`}>
                               {contact.verifiedAt ? "Verified email" : "Verification pending"}
