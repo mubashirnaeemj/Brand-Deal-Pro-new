@@ -22,12 +22,12 @@ const MATCHED_BRANDS = [
 ];
 
 const BRAND_CONTACTS: Record<string, { name: string; title: string; company: string; type: "agency"|"in-house"; email: string }> = {
-  "Sennheiser":          { name: "Sarah Chen",     title: "Director of Influencer Marketing", company: "Edelman",             type: "agency",   email: "sarah.chen@edelman.com"   },
-  "Spotify for Artists": { name: "Marcus Williams", title: "Creator Partnerships Manager",    company: "Spotify",             type: "in-house", email: "m.williams@spotify.com"   },
-  "Native Instruments":  { name: "Priya Sharma",    title: "Account Supervisor",               company: "Fleischman Hillard",  type: "agency",   email: "p.sharma@fleishman.com"   },
-  "GoPro":               { name: "Jake Torres",     title: "Influencer Marketing Manager",     company: "GoPro",               type: "in-house", email: "j.torres@gopro.com"       },
-  "Sweetwater":          { name: "Dana Kim",        title: "Brand Partnerships Lead",          company: "Sweetwater",          type: "in-house", email: "d.kim@sweetwater.com"     },
-  "Red Bull":            { name: "Alex Rivera",     title: "Account Manager",                  company: "Edelman",             type: "agency",   email: "a.rivera@edelman.com"     },
+  "Sennheiser":          { name: "Sarah Chen",      title: "Director, Creator Partnerships",    company: "Edelman",             type: "agency",   email: "sarah.chen@edelman.com"   },
+  "Spotify for Artists": { name: "Marcus Williams", title: "Director, Creator Partnerships",    company: "Spotify",             type: "in-house", email: "m.williams@spotify.com"   },
+  "Native Instruments":  { name: "Priya Sharma",    title: "Director, Influencer Partnerships", company: "Fleischman Hillard",  type: "agency",   email: "p.sharma@fleishman.com"   },
+  "GoPro":               { name: "Jake Torres",     title: "Director, Influencer Marketing",    company: "GoPro",               type: "in-house", email: "j.torres@gopro.com"       },
+  "Sweetwater":          { name: "Dana Kim",        title: "Director, Affiliate Partnerships",  company: "Sweetwater",          type: "in-house", email: "d.kim@sweetwater.com"     },
+  "Red Bull":            { name: "Alex Rivera",     title: "Director, Creator Partnerships",    company: "Edelman",             type: "agency",   email: "a.rivera@edelman.com"     },
 };
 
 const BRAND_LAUNCHES: Record<string, string[]> = {
@@ -161,6 +161,7 @@ function OutboundMode() {
   const [, setLocation] = useLocation();
   const search = useSearch();
   const [prefillBrand] = useState(() => new URLSearchParams(search).get("brand") ?? "");
+  const [prefillContact] = useState(() => new URLSearchParams(search).get("contact") ?? "");
   const [form, setFormState] = useState<OutboundForm>(() => {
     if (prefillBrand && MATCHED_BRANDS.some(b => b.name === prefillBrand)) {
       return { ...EMPTY_OUTBOUND, brandSource: "matched", selectedBrand: prefillBrand };
@@ -178,7 +179,10 @@ function OutboundMode() {
   const set = <K extends keyof OutboundForm>(k: K, v: OutboundForm[K]) => setFormState(p => ({ ...p, [k]: v }));
 
   const brandName    = form.brandSource === "matched" ? form.selectedBrand : form.customBrand;
-  const activeContact = form.brandSource === "matched" && form.selectedBrand ? (BRAND_CONTACTS[form.selectedBrand] ?? null) : null;
+  const defaultContact = form.brandSource === "matched" && form.selectedBrand ? (BRAND_CONTACTS[form.selectedBrand] ?? null) : null;
+  const activeContact = defaultContact
+    ? { ...defaultContact, name: prefillContact && form.selectedBrand === prefillBrand ? prefillContact : defaultContact.name }
+    : null;
   const canGenerate  = brandName.trim() && form.creatorName.trim() && form.handle.trim() && form.followers.trim() && form.engagementRate.trim() && form.story.trim();
 
   const generate = async () => {
@@ -242,7 +246,9 @@ function OutboundMode() {
                 {prefillBrand && form.selectedBrand === prefillBrand && (
                   <div className="flex items-center gap-2 mb-3 px-3 py-2 rounded-xl bg-primary/10 border border-primary/25 text-xs font-semibold text-primary">
                     <CheckCircle2 size={12} />
-                    Pre-filled from your matches — just add your story below
+                    {prefillContact
+                      ? `${prefillBrand} and ${prefillContact} are pre-loaded — just add your story below`
+                      : "Pre-filled from your matches — just add your story below"}
                   </div>
                 )}
                 <Label>Select a matched brand</Label>

@@ -544,6 +544,7 @@ export default function BrandDetail() {
       return brand ? list.includes(brand.name) : false;
     } catch { return false; }
   });
+  const [contactFlagged, setContactFlagged] = useState(false);
 
   const toggleSave = () => {
     setSaved(prev => {
@@ -558,6 +559,19 @@ export default function BrandDetail() {
       } catch { /* ignore */ }
       return next;
     });
+  };
+
+  const flagPrimaryContact = () => {
+    if (!brand) return;
+    try {
+      const raw = localStorage.getItem("mavlit_contact_flags");
+      const flags = raw ? (JSON.parse(raw) as Array<{ brand: string; contact: string; flaggedAt: string }>) : [];
+      localStorage.setItem("mavlit_contact_flags", JSON.stringify([
+        ...flags,
+        { brand: brand.name, contact: primaryContact.name, flaggedAt: new Date().toISOString() },
+      ]));
+    } catch { /* keep the confirmation visible even if local storage is unavailable */ }
+    setContactFlagged(true);
   };
 
   const creatorFollowers = useMemo((): number | null => {
@@ -773,7 +787,7 @@ export default function BrandDetail() {
                       className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-primary py-2.5 text-xs font-bold text-white shadow-md shadow-primary/25 transition-all hover:bg-primary/90 hover:shadow-primary/40"
                     >
                       <Zap size={13} />
-                      Pitch {primaryContact.name.split(" ")[0]} →
+                      Pitch {primaryContact.name.split(" ")[0]}
                     </button>
                   </div>
                 )}
@@ -811,6 +825,19 @@ export default function BrandDetail() {
                     </div>
                   </div>
                 )}
+                <div className="mt-4 border-t border-border/70 pt-3 text-center">
+                  {contactFlagged ? (
+                    <p className="text-[11px] text-muted-foreground/70">Thanks — we'll review this contact.</p>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={flagPrimaryContact}
+                      className="text-[11px] text-muted-foreground/60 underline decoration-white/15 underline-offset-2 transition-colors hover:text-muted-foreground"
+                    >
+                      This contact seems wrong
+                    </button>
+                  )}
+                </div>
               </motion.div>
 
             </div>
