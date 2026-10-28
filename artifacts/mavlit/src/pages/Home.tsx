@@ -289,6 +289,9 @@ function EarlyAccess() {
     followers: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [serverError, setServerError] = useState("");
+  const [honeypot, setHoneypot] = useState("");   // hidden field: only bots fill it in
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   function validate() {
@@ -302,12 +305,31 @@ function EarlyAccess() {
     return e;
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const errs = validate();
     if (Object.keys(errs).length) { setErrors(errs); return; }
     setErrors({});
-    setSubmitted(true);
+    setServerError("");
+    setSending(true);
+    try {
+      const res = await fetch("/api/mavlit/early-access", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, website: honeypot }),
+      });
+      if (!res.ok) {
+        setServerError(res.status === 429
+          ? "Too many sign-ups from this address. Please try again later."
+          : "Something went wrong. Please try again.");
+        return;
+      }
+      setSubmitted(true);
+    } catch {
+      setServerError("Could not reach the server. Please check your connection and try again.");
+    } finally {
+      setSending(false);
+    }
   }
 
   const inputClass = "w-full rounded-xl px-4 py-3 text-sm text-white placeholder:text-[#8080a0] outline-none focus:ring-2 focus:ring-[#7c3aed] transition";
@@ -432,12 +454,21 @@ function EarlyAccess() {
               {errors.followers && <p className="text-xs mt-1.5" style={{ color: "#f87171" }}>{errors.followers}</p>}
             </div>
 
+            <input
+              type="text" name="website" value={honeypot} onChange={(e) => setHoneypot(e.target.value)}
+              tabIndex={-1} autoComplete="off" aria-hidden="true"
+              style={{ position: "absolute", left: "-10000px", width: 1, height: 1, opacity: 0 }}
+            />
+
+            {serverError && <p className="text-sm" role="alert" style={{ color: "#f87171" }}>{serverError}</p>}
+
             <button
               type="submit"
+              disabled={sending}
               style={{ background: ACCENT }}
-              className="w-full py-3.5 rounded-xl text-white font-bold text-sm hover:opacity-90 transition-opacity mt-2"
+              className="w-full py-3.5 rounded-xl text-white font-bold text-sm hover:opacity-90 transition-opacity mt-2 disabled:opacity-60"
             >
-              Join the early access list →
+              {sending ? "Joining…" : "Join the early access list →"}
             </button>
           </form>
         )}
