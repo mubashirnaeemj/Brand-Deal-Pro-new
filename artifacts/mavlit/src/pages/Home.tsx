@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 const ACCENT = "#7c3aed";
 const BG = "#0a0a0f";
 const SUBTEXT = "#8080a0";
@@ -276,6 +278,174 @@ function Honesty() {
   );
 }
 
+// ── Early Access Form ──────────────────────────────────────────────────────────
+
+function EarlyAccess() {
+  const [form, setForm] = useState({
+    email: "",
+    handle: "",
+    platform: "",
+    niche: "",
+    followers: "",
+  });
+  const [submitted, setSubmitted] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  function validate() {
+    const e: Record<string, string> = {};
+    if (!form.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
+      e.email = "A valid email is required.";
+    if (!form.handle.trim()) e.handle = "Your creator handle is required.";
+    if (!form.platform) e.platform = "Please select a platform.";
+    if (!form.niche) e.niche = "Please select a niche.";
+    if (!form.followers) e.followers = "Please select your follower count.";
+    return e;
+  }
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    const errs = validate();
+    if (Object.keys(errs).length) { setErrors(errs); return; }
+    setErrors({});
+    setSubmitted(true);
+  }
+
+  const inputClass = "w-full rounded-xl px-4 py-3 text-sm text-white placeholder:text-[#8080a0] outline-none focus:ring-2 focus:ring-[#7c3aed] transition";
+  const inputStyle = { background: "#13131e", border: "1px solid #ffffff15" };
+
+  return (
+    <section
+      id="early-access"
+      style={{ background: "#0d0d14" }}
+      className="py-20 px-6"
+    >
+      <div className="max-w-lg mx-auto">
+        <p style={{ color: ACCENT }} className="text-sm font-bold uppercase tracking-widest mb-4 text-center">
+          Early Access
+        </p>
+        <h2 className="text-white font-extrabold text-3xl sm:text-4xl text-center mb-4 leading-tight">
+          Join the founding creators.
+        </h2>
+        <p style={{ color: SUBTEXT }} className="text-center text-base leading-relaxed mb-10">
+          MAVLIT is opening to a small group of creators first. Founding creators get free early access, help shape the product, and lock in a lifetime discount when we launch.
+        </p>
+
+        {submitted ? (
+          <div
+            style={{ background: "#13131e", border: "1px solid #7c3aed40" }}
+            className="rounded-2xl p-8 text-center"
+          >
+            <div className="text-3xl mb-4">🎉</div>
+            <h3 className="text-white font-extrabold text-2xl mb-3">You're on the list.</h3>
+            <p style={{ color: SUBTEXT }} className="text-sm leading-relaxed mb-4">
+              Thanks — you're in. We're onboarding founding creators in small groups and we'll email you when it's your turn. If your niche isn't live yet, we'll tell you the moment it is.
+            </p>
+            <p style={{ color: "#8080a060" }} className="text-xs">
+              We'll only email you about MAVLIT. No spam, ever.
+            </p>
+          </div>
+        ) : (
+          <form
+            onSubmit={handleSubmit}
+            style={{ background: "#13131e", border: "1px solid #ffffff10" }}
+            className="rounded-2xl p-8 flex flex-col gap-4"
+            noValidate
+          >
+            {/* Email */}
+            <div>
+              <input
+                type="email"
+                placeholder="Email address"
+                value={form.email}
+                onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+                className={inputClass}
+                style={inputStyle}
+              />
+              {errors.email && <p className="text-xs mt-1.5" style={{ color: "#f87171" }}>{errors.email}</p>}
+            </div>
+
+            {/* Handle */}
+            <div>
+              <input
+                type="text"
+                placeholder="@yourhandle"
+                value={form.handle}
+                onChange={e => setForm(f => ({ ...f, handle: e.target.value }))}
+                className={inputClass}
+                style={inputStyle}
+              />
+              {errors.handle && <p className="text-xs mt-1.5" style={{ color: "#f87171" }}>{errors.handle}</p>}
+            </div>
+
+            {/* Platform */}
+            <div>
+              <select
+                value={form.platform}
+                onChange={e => setForm(f => ({ ...f, platform: e.target.value }))}
+                className={inputClass}
+                style={{ ...inputStyle, appearance: "none", color: form.platform ? "white" : SUBTEXT }}
+              >
+                <option value="" disabled>Primary platform</option>
+                <option value="instagram">Instagram</option>
+                <option value="tiktok">TikTok</option>
+                <option value="youtube">YouTube</option>
+                <option value="substack">Substack</option>
+                <option value="other">Other</option>
+              </select>
+              {errors.platform && <p className="text-xs mt-1.5" style={{ color: "#f87171" }}>{errors.platform}</p>}
+            </div>
+
+            {/* Niche */}
+            <div>
+              <select
+                value={form.niche}
+                onChange={e => setForm(f => ({ ...f, niche: e.target.value }))}
+                className={inputClass}
+                style={{ ...inputStyle, appearance: "none", color: form.niche ? "white" : SUBTEXT }}
+              >
+                <option value="" disabled>Niche</option>
+                <option value="music">Music</option>
+                <option value="health">Health &amp; Wellness</option>
+                <option value="food">Food &amp; Beverage</option>
+                <option value="beauty">Beauty</option>
+                <option value="fitness">Fitness</option>
+                <option value="other">Other</option>
+              </select>
+              {errors.niche && <p className="text-xs mt-1.5" style={{ color: "#f87171" }}>{errors.niche}</p>}
+            </div>
+
+            {/* Followers */}
+            <div>
+              <select
+                value={form.followers}
+                onChange={e => setForm(f => ({ ...f, followers: e.target.value }))}
+                className={inputClass}
+                style={{ ...inputStyle, appearance: "none", color: form.followers ? "white" : SUBTEXT }}
+              >
+                <option value="" disabled>Follower count</option>
+                <option value="under10k">Under 10k</option>
+                <option value="10k-50k">10k–50k</option>
+                <option value="50k-200k">50k–200k</option>
+                <option value="200k-500k">200k–500k</option>
+                <option value="500k+">500k+</option>
+              </select>
+              {errors.followers && <p className="text-xs mt-1.5" style={{ color: "#f87171" }}>{errors.followers}</p>}
+            </div>
+
+            <button
+              type="submit"
+              style={{ background: ACCENT }}
+              className="w-full py-3.5 rounded-xl text-white font-bold text-sm hover:opacity-90 transition-opacity mt-2"
+            >
+              Join the early access list →
+            </button>
+          </form>
+        )}
+      </div>
+    </section>
+  );
+}
+
 // ── Final CTA + Footer ─────────────────────────────────────────────────────────
 
 function FinalCTA() {
@@ -323,6 +493,7 @@ export default function Home() {
         <HowItWorks />
         <Differentiator />
         <Honesty />
+        <EarlyAccess />
         <FinalCTA />
       </main>
     </div>
