@@ -1,0 +1,58 @@
+name: Deploy MAVLIT Onboarding Frontend
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+concurrency:
+  group: mavlit-onboarding-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to Hetzner Production
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy frontend
+        uses: appleboy/ssh-action@v1.2.0
+
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.PROD_USER }}
+          key: ${{ secrets.PROD_SSH_KEY }}
+          port: ${{ secrets.PROD_SSH_PORT }}
+          script: |
+            set -e
+
+            echo "Starting MAVLIT onboarding deployment..."
+
+            cd /opt/Brand-Deal-Pro-new
+
+            echo "Pulling latest code..."
+            git pull --ff-only origin main
+
+            echo "Loading Node.js environment..."
+            export NVM_DIR="/root/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+
+            echo "Checking versions..."
+            node --version
+            pnpm --version
+
+            echo "Installing dependencies..."
+            pnpm install --frozen-lockfile
+
+            echo "Building frontend..."
+            PORT=8091 BASE_PATH=/ NODE_ENV=production pnpm --filter @workspace/mavlit build
+
+            echo "Verifying build..."
+            test -s artifacts/mavlit/dist/public/index.html
+
+            echo "Checking production website..."
+            curl -fsS https://mavlit.com/ > /dev/null
+
+            echo "MAVLIT onboarding deployment successful!"
