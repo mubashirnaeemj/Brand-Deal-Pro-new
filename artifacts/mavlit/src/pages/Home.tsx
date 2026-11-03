@@ -31,7 +31,7 @@ function HomeNav() {
           <span className="text-white font-bold text-xl tracking-tight">MAVLIT</span>
         </div>
         <a
-          href="https://mavlit.com/dashboard"
+          href="https://api.mavlit.com"
           style={{ background: ACCENT }}
           className="px-4 py-2 rounded-lg text-white text-sm font-bold hover:opacity-90 transition-opacity"
         >
@@ -58,7 +58,7 @@ function Hero() {
           MAVLIT matches you with brands that actually pay, shows you the verified contact to reach, and helps you write a pitch that gets read. Quality over volume. Built for creators who mean business.
         </p>
         <a
-          href="https://mavlit.com/dashboard"
+          href="https://api.mavlit.com"
           style={{ background: ACCENT }}
           className="inline-block px-8 py-4 rounded-xl text-white text-base font-bold hover:opacity-90 transition-opacity mb-4"
         >
@@ -487,7 +487,7 @@ function FinalCTA() {
           Stop waiting for brands to find you.<br />Go get them.
         </h2>
         <a
-          href="https://mavlit.com/dashboard"
+          href="https://api.mavlit.com"
           style={{ background: ACCENT }}
           className="inline-block px-8 py-4 rounded-xl text-white font-bold text-base hover:opacity-90 transition-opacity"
         >
