@@ -280,12 +280,19 @@ function Honesty() {
 
 // ── Early Access Form ──────────────────────────────────────────────────────────
 
+const NICHES = [
+  { value: "music", label: "Music" },
+  { value: "health", label: "Health" },
+  { value: "fitness", label: "Fitness" },
+  { value: "beauty", label: "Beauty" },
+];
+
 function EarlyAccess() {
   const [form, setForm] = useState({
     email: "",
     handle: "",
     platform: "",
-    niche: "",
+    niche: [] as string[],
     followers: "",
   });
   const [submitted, setSubmitted] = useState(false);
@@ -300,7 +307,7 @@ function EarlyAccess() {
       e.email = "A valid email is required.";
     if (!form.handle.trim()) e.handle = "Your creator handle is required.";
     if (!form.platform) e.platform = "Please select a platform.";
-    if (!form.niche) e.niche = "Please select a niche.";
+    if (form.niche.length === 0) e.niche = "Please select at least one niche.";
     if (!form.followers) e.followers = "Please select your follower count.";
     return e;
   }
@@ -411,28 +418,36 @@ function EarlyAccess() {
                 <option value="instagram">Instagram</option>
                 <option value="tiktok">TikTok</option>
                 <option value="youtube">YouTube</option>
-                <option value="substack">Substack</option>
                 <option value="other">Other</option>
               </select>
               {errors.platform && <p className="text-xs mt-1.5" style={{ color: "#f87171" }}>{errors.platform}</p>}
             </div>
 
-            {/* Niche */}
+            {/* Niche (one or more) */}
             <div>
-              <select
-                value={form.niche}
-                onChange={e => setForm(f => ({ ...f, niche: e.target.value }))}
-                className={inputClass}
-                style={{ ...inputStyle, appearance: "none", color: form.niche ? "white" : SUBTEXT }}
-              >
-                <option value="" disabled>Niche</option>
-                <option value="music">Music</option>
-                <option value="health">Health &amp; Wellness</option>
-                <option value="food">Food &amp; Beverage</option>
-                <option value="beauty">Beauty</option>
-                <option value="fitness">Fitness</option>
-                <option value="other">Other</option>
-              </select>
+              <p className="text-sm mb-2" style={{ color: SUBTEXT }}>Niche (select one or more)</p>
+              <div className="flex flex-wrap gap-2" role="group" aria-label="Niche">
+                {NICHES.map(({ value, label }) => {
+                  const on = form.niche.includes(value);
+                  return (
+                    <button
+                      key={value}
+                      type="button"
+                      aria-pressed={on}
+                      onClick={() => setForm(f => ({
+                        ...f,
+                        niche: on ? f.niche.filter(n => n !== value) : [...f.niche, value],
+                      }))}
+                      className="rounded-xl px-4 py-2.5 text-sm font-medium transition outline-none focus:ring-2 focus:ring-[#7c3aed]"
+                      style={on
+                        ? { background: ACCENT, border: `1px solid ${ACCENT}`, color: "white" }
+                        : { background: "#13131e", border: "1px solid #ffffff15", color: "white" }}
+                    >
+                      {label}
+                    </button>
+                  );
+                })}
+              </div>
               {errors.niche && <p className="text-xs mt-1.5" style={{ color: "#f87171" }}>{errors.niche}</p>}
             </div>
 
