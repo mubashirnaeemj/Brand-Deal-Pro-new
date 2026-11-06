@@ -326,6 +326,12 @@ function EarlyAccess() {
         body: JSON.stringify({ ...form, website: honeypot }),
       });
       if (!res.ok) {
+        if (res.status === 409) {
+          // This email already has an account, or already filled in this form: the server's own sentence says which.
+          const body = await res.json().catch(() => null) as { detail?: unknown } | null;
+          setServerError(typeof body?.detail === "string" ? body.detail : "You've already filled in this form with this email.");
+          return;
+        }
         setServerError(res.status === 429
           ? "Too many sign-ups from this address. Please try again later."
           : "Something went wrong. Please try again.");
